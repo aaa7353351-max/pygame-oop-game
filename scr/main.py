@@ -22,18 +22,60 @@ font = pygame.font.Font(None,40)
 #색상 
 WHITE = (255,255,255)
 
-# 클래스 정의
+# ----클래스 정의
 
-#클래스 Background / 배경그림관리 draw()
+    #클래스 Background / 배경그림관리 draw()
 class Background:
     def __init__(self, img_path):
         self.image =  pygame.image.load(img_path).convert() #이미지 로드 후 최적화
         self.image = pygame.transform.scale(self.image, (WIDTH,HEIGHT)) #크기변환  
+    def draw(self, screen):
+        screen.blit(self.image,(0,0))
+    #클래스 Player / 조작 & hp관리 move(), draw()
+class Player:
+    def __init__(self, img_path):
+        self.image = pygame.image.load(img_path).convert_alpha()
+        self.rect = self.image.get_rect(center=(100, HEIGHT // 2))
+        self.hp = 3
+    
+    def move(self, keys):
+        if keys[pygame.k_up] and self.rect.top >0: #캐릭터 위치
+            self.rect.y -= 5
+        if keys[pygame.K_DOWN] and self.rect.bottom < HEIGHT:
+            self.rect.y += 5
+        
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
+class Enemy:
+    def __init__(self, img_path):
+        self.image = pygame.image.load(img_path).convert_alpha()
+# 투명도 이미지 파일을 불러옴 
+        self.rect = self.image.get_rect(center=(random.randint(WIDTH, WIDTH+200), random.randint(50, HEIGHT-50)))
+        self.speed = random.randint(4, 7)
+    def update(self):
+        self.rect.x -= self.speed
+        if self.rect.right < 0:
+            self.rect.x = random.randint(WIDTH, WIDTH+200)
+            self.rect.y = random.randint(50, HEIGHT-50)
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+
+class Item:
+    def __init__(self, img_path):
+        self.image = pygame.image.load(img_path).convert_alpha()
+        self.rect = self.image.get_rect(center=(random.randint(WIDTH, WIDTH+200), random.randint(50, HEIGHT-50)))
+        self.speed = 3
+    def update(self):
+        self.rect.x -= self.speed
+        if self.rect.right < 0:
+            self.rect.x = random.randint(WIDTH, WIDTH+300)
+            self.rect.y = random.randint(50, HEIGHT-50)
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
 
 
-
-#클래스 Player / 조작 & hp관리 move(), draw()
 
 
 
