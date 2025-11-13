@@ -5,17 +5,11 @@ pygame.init()
 #화면 환경설정
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
-pygame.display.set_caption("마당을 나온 수탉")
+pygame.display.set_caption("키위새의 비행")
 #변수 설정
 x,y = WIDTH/2, HEIGHT/2
 speed= 5
 
-#화면 띄우기 루프
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
 
 clock = pygame.time.Clock()
 font = pygame.font.Font(None,40)
@@ -39,7 +33,7 @@ class Player:
         self.hp = 3
     
     def move(self, keys):
-        if keys[pygame.k_up] and self.rect.top >0: #캐릭터 위치
+        if keys[pygame.K_UP] and self.rect.top >0: #캐릭터 위치
             self.rect.y -= 5
         if keys[pygame.K_DOWN] and self.rect.bottom < HEIGHT:
             self.rect.y += 5
@@ -63,7 +57,7 @@ class Enemy:
 
 class Item:
     def __init__(self, img_path):
-        self.image = pygame.image.load(img_path).convert_alpha()
+        self.image = pygame.image.load("image/키위아이템.png").convert_alpha()
         self.rect = self.image.get_rect(center=(random.randint(WIDTH, WIDTH+200), random.randint(50, HEIGHT-50)))
         self.speed = 3
     def update(self):
@@ -77,9 +71,9 @@ class Item:
 # ----게임 클래스 
 class Game:
     def __init__(self):
-        self.bg = Background("background.png")
-        self.player = Player("bird.png")
-        self.enemies = [Enemy("enemy.png") for _ in range(3)]
+        self.bg = Background("image/배경.jpg")
+        self.player = Player("image/키위새.png")
+        self.enemies = [Enemy("image/enemy.png") for _ in range(3)]
         self.items = [Item("item.png")]
         self.start_time = pygame.time.get_ticks()
         self.running = True
