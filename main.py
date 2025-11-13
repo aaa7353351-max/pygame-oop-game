@@ -29,6 +29,7 @@ class Background:
 class Player:
     def __init__(self, img_path):
         self.image = pygame.image.load(img_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (80, 80))
         self.rect = self.image.get_rect(center=(100, HEIGHT // 2))
         self.hp = 3
     
@@ -44,6 +45,7 @@ class Player:
 class Enemy:
     def __init__(self, img_path):
         self.image = pygame.image.load(img_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (60, 60))
 # 투명도 이미지 파일을 불러옴 
         self.rect = self.image.get_rect(center=(random.randint(WIDTH, WIDTH+200), random.randint(50, HEIGHT-50)))
         self.speed = random.randint(4, 7)
@@ -58,6 +60,7 @@ class Enemy:
 class Item:
     def __init__(self, img_path):
         self.image = pygame.image.load("image/키위아이템.png").convert_alpha()
+        self.image = pygame.transform.scale(self.image, (40, 40))
         self.rect = self.image.get_rect(center=(random.randint(WIDTH, WIDTH+200), random.randint(50, HEIGHT-50)))
         self.speed = 3
     def update(self):
@@ -77,7 +80,11 @@ class Game:
         self.items = [Item("item.png")]
         self.start_time = pygame.time.get_ticks()
         self.running = True
+      
+    
+
     def check_collision(self):
+
        # 적 충돌
         for e in self.enemies:
             if self.player.rect.colliderect(e.rect):
